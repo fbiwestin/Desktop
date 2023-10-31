@@ -110,7 +110,7 @@ uint16_t converter ( uint8_t a )
 }
 
 //==============================================
-// SETUP ...
+// SETUP
 void setup() {
   
   lcd.begin(16,2);
