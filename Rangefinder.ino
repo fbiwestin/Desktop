@@ -27,6 +27,10 @@ uint8_t rangeFinder( uint8_t a )
   converted = rawData / 60.6;
 
   return converted;
+
+  /* Good function but it returns type "uint8_t" so you will not get any values above 255.
+  Change the return type to uint16_t at least
+  */
 }
 
 //==============================================
@@ -95,6 +99,12 @@ void results ()
 // Conversion Function
 uint16_t converter ( uint8_t a )
 {
+  // What does the parameter "a" do in this function?
+
+  // This function returns an integer (uint16_t) so you will only get whole number values out.
+  // Suggest using float or double  for the variable "converted" and also for the return type
+  // so that you get decimals.
+  
   uint16_t converted;
 
   if (convertCounter % 2 == 0) // Converts cm to inches display
