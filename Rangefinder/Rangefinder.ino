@@ -5,13 +5,15 @@ uint8_t counterLatch = 0; //Latch for Button
 uint8_t convertCounter = 0; //Default Button presses
 
 uint8_t modeLatch = 0; //Latch for modeButton
-uint8_t modeCounter = 0; //mode Button presses
+uint8_t modeCounter = 1; //mode Button presses
+
+double factor = 60.6;
+double rawData = 0;
 
 //==============================================
 
-uint8_t rangeFinder( uint8_t a )
+uint16_t rangeFinder( uint8_t a )
 {
-  uint16_t rawData = 0;
   uint16_t converted = 0;
 
   pinMode(3,OUTPUT);
@@ -24,13 +26,9 @@ uint8_t rangeFinder( uint8_t a )
   pinMode(3,INPUT); //Set to read
   rawData = pulseIn(3,HIGH);  //Reads the data
 
-  converted = rawData / 60.6;
+  converted = rawData / factor;
 
   return converted;
-
-  /* Good function but it returns type "uint8_t" so you will not get any values above 255.
-  Change the return type to uint16_t at least
-  */
 }
 
 //==============================================
@@ -97,15 +95,9 @@ void results ()
 
 //==============================================
 // Conversion Function
-uint16_t converter ( uint8_t a )
+double converter ( uint8_t a )
 {
-  // What does the parameter "a" do in this function?
-
-  // This function returns an integer (uint16_t) so you will only get whole number values out.
-  // Suggest using float or double  for the variable "converted" and also for the return type
-  // so that you get decimals.
-  
-  uint16_t converted;
+  double converted;
 
   if (convertCounter % 2 == 0) // Converts cm to inches display
   {
@@ -162,7 +154,14 @@ void loop()
 
     lcd.setCursor(0,1);
     lcd.print("Factor:");
-    delay(200);
+    lcd.print(factor);
+
+    if (converter(1) == 10 )
+    {
+      factor = factor * 10;
+    }
+
+    delay(500);
     lcd.clear();
 
   }
